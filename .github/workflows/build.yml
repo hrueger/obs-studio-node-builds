@@ -1,0 +1,24 @@
+name: Build
+
+on: workflow_dispatch
+
+jobs:
+  build_on_win:
+    name: Build on Windows
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+    - run: git clone https://github.com/stream-labs/obs-studio-node
+    - run: yarn install
+      working-directory: obs-studio-node
+    - run: git submodule update --init --recursive
+      working-directory: obs-studio-node
+    - run: mkdir build
+      working-directory: obs-studio-node
+    - run: cmake .. -G"Visual Studio 15 2017" -A x64
+      working-directory: obs-studio-node
+    - run: cmake --build .
+      working-directory: obs-studio-node
+    - run: cpack -G ZIP
+      working-directory: obs-studio-node
+    - run: tree .
