@@ -25,4 +25,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: obs-studio-node-0.3.21-win64.zip
-        path: obs-studio-node-builds/obs-studio-node/build/*.zip
+        path: obs-studio-node/build/*.zip
