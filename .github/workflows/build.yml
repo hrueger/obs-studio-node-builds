@@ -22,4 +22,7 @@ jobs:
       working-directory: obs-studio-node/build
     - run: cpack -G ZIP
       working-directory: obs-studio-node/build
-    - run: tree .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: obs-studio-node-0.3.21-win64.zip
+        path: obs-studio-node-builds/obs-studio-node/build/*.zip
