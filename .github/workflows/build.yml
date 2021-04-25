@@ -18,7 +18,7 @@ jobs:
       working-directory: obs-studio-node
     - run: cmake .. -G"Visual Studio 15 2017" -A x64
       working-directory: obs-studio-node/build
-    - run: cmake --build .
+    - run: cmake --build . --config Release
       working-directory: obs-studio-node/build
     - run: cpack -G ZIP
       working-directory: obs-studio-node/build
