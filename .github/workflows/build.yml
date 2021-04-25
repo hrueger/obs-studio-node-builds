@@ -8,6 +8,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@master
+    - uses: microsoft/setup-msbuild@v1.0.2
     - run: git clone https://github.com/stream-labs/obs-studio-node
     - run: yarn install
       working-directory: obs-studio-node
