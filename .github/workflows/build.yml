@@ -12,7 +12,7 @@ jobs:
     
     # OBS Studio
     - run: curl -L -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
-    - run: 7z e -odependencies2017 dependencies2017.zip
+    - run: 7z e -aoa -odependencies2017 dependencies2017.zip
     - run: tree
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
