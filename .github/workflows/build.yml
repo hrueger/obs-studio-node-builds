@@ -9,35 +9,38 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: microsoft/setup-msbuild@v1.0.2
+    
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     # OBS Studio
-    - run: curl -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
-    - run: type dependencies2017.zip
-    - run: 7z e dependencies2017.zip
-    - run: tree
-    - run: git clone --recursive https://github.com/obsproject/obs-studio
-    - run: mkdir build
-      working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2017\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 15 2017" -A x64
-      working-directory: obs-studio/build
-    - run: cmake --build .
-      working-directory: obs-studio/build
-    - run: cpack -G ZIP
-      working-directory: obs-studio/build
-    # obs-studio-node
-    - run: git clone https://github.com/stream-labs/obs-studio-node
-    - run: yarn install
-      working-directory: obs-studio-node
-    - run: git submodule update --init --recursive
-      working-directory: obs-studio-node
-    - run: mkdir build
-      working-directory: obs-studio-node
-    - run: cmake .. -G"Visual Studio 15 2017" -A x64
-      working-directory: obs-studio-node/build
-    - run: cmake --build . --config Release
-      working-directory: obs-studio-node/build
-    - run: cpack -G ZIP
-      working-directory: obs-studio-node/build
-    - uses: actions/upload-artifact@v2
-      with:
-        name: obs-studio-node-0.3.21-win64.zip
-        path: obs-studio-node/build/*.zip
+    ### - run: curl -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
+    ### - run: type dependencies2017.zip
+    ### - run: 7z e dependencies2017.zip
+    ### - run: tree
+    ### - run: git clone --recursive https://github.com/obsproject/obs-studio
+    ### - run: mkdir build
+    ###   working-directory: obs-studio
+    ### - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2017\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 15 2017" -A x64
+    ###   working-directory: obs-studio/build
+    ### - run: cmake --build .
+    ###   working-directory: obs-studio/build
+    ### - run: cpack -G ZIP
+    ###   working-directory: obs-studio/build
+    ### # obs-studio-node
+    ### - run: git clone https://github.com/stream-labs/obs-studio-node
+    ### - run: yarn install
+    ###   working-directory: obs-studio-node
+    ### - run: git submodule update --init --recursive
+    ###   working-directory: obs-studio-node
+    ### - run: mkdir build
+    ###   working-directory: obs-studio-node
+    ### - run: cmake .. -G"Visual Studio 15 2017" -A x64
+    ###   working-directory: obs-studio-node/build
+    ### - run: cmake --build . --config Release
+    ###   working-directory: obs-studio-node/build
+    ### - run: cpack -G ZIP
+    ###   working-directory: obs-studio-node/build
+    ### - uses: actions/upload-artifact@v2
+    ###   with:
+    ###     name: obs-studio-node-0.3.21-win64.zip
+    ###     path: obs-studio-node/build/*.zip
