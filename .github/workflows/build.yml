@@ -1,6 +1,6 @@
 name: Build
 
-on: workflow_dispatch
+on: [workflow_dispatch, push]
 
 jobs:
   build_on_win:
@@ -9,6 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: microsoft/setup-msbuild@v1.0.2
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        sdk: 10.0.19041.0
     
     # OBS Studio
     - run: curl -L -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
