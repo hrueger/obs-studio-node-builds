@@ -10,13 +10,13 @@ jobs:
     - uses: actions/checkout@master
     - uses: microsoft/setup-msbuild@v1.0.2
     # OBS Studio
-    - run: wget http://obsproject.com/downloads/dependencies2017.zip
-    - run: dependencies2017.zip
+    - run: curl -sS http://obsproject.com/downloads/dependencies2017.zip > dependencies2017.zip
+    - run: unzip dependencies2017.zip
     - run: tree
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
       working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="C:\Users\computerquip\Projectslibobs-deps\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 15 2017" -A x64
+    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2017\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 15 2017" -A x64
       working-directory: obs-studio/build
     - run: cmake --build .
       working-directory: obs-studio/build
