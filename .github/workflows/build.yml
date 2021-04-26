@@ -11,7 +11,7 @@ jobs:
     - uses: microsoft/setup-msbuild@v1.0.2
     # OBS Studio
     - run: curl -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
-    - run: tree
+    - run: type dependencies2017.zip
     - run: 7z e dependencies2017.zip
     - run: tree
     - run: git clone --recursive https://github.com/obsproject/obs-studio
