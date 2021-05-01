@@ -13,7 +13,7 @@ jobs:
     - uses: microsoft/setup-msbuild@v1.0.2
     # OBS Studio
     - run: curl -L -o dependencies2019.zip http://obsproject.com/downloads/dependencies2019.zip
-    - run: 7z e -aoa -dependencies2019 dependencies2019.zip
+    - run: 7z e -aoa -odependencies2019 dependencies2019.zip
     - run: tree
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
