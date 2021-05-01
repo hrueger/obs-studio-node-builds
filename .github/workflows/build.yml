@@ -16,7 +16,7 @@ jobs:
     - run: 7z e -aoa -odependencies2019 dependencies2019.zip
     - run: |
           curl -kL https://cdn-fastly.obsproject.com/downloads/vlc.zip -f --retry 5 -o vlc.zip
-          7z x vlc.zip -ovlc"
+          7z x vlc.zip -ovlc
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
       working-directory: obs-studio
