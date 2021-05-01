@@ -15,7 +15,7 @@ jobs:
     - run: git clone --recursive https://github.com/stream-labs/obs-studio
     - run: mkdir build64
       working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 16 2019" -A x64 -B build64
+    - run: cmake -G"Visual Studio 16 2019" -A x64 -S . -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DENABLE_SCRIPTING=false -B build64
       working-directory: obs-studio
     - run: cmake --build build64 --config Release
       working-directory: obs-studio
