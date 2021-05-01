@@ -14,11 +14,13 @@ jobs:
     # OBS Studio
     - run: curl -L -o dependencies2019.zip http://obsproject.com/downloads/dependencies2019.zip
     - run: 7z e -aoa -odependencies2019 dependencies2019.zip
-    - run: tree
+    - run: |
+          curl -kL https://cdn-fastly.obsproject.com/downloads/vlc.zip -f --retry 5 -o vlc.zip
+          7z x vlc.zip -ovlc"
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
       working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DENABLE_SCRIPTING=false -DVIRTUALCAM_GUID=${{ env.VIRTUALCAM-GUID }} -G"Visual Studio 16 2019" -A x64
+    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DVLCPath="../../vlc" -DENABLE_SCRIPTING=false -DVIRTUALCAM_GUID=${{ env.VIRTUALCAM-GUID }} -G"Visual Studio 16 2019" -A x64
       working-directory: obs-studio/build
     - run: cmake --build .
       working-directory: obs-studio/build
