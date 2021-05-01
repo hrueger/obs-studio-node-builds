@@ -13,14 +13,15 @@ jobs:
     - run: curl -L -o dependencies2019.zip http://obsproject.com/downloads/dependencies2019.zip
     - run: 7z e -aoa -odependencies2019 dependencies2019.zip
     - run: git clone --recursive https://github.com/stream-labs/obs-studio
-    - run: mkdir build64
+    - run: tree
+    - run: mkdir build
       working-directory: obs-studio
-    - run: cmake -G"Visual Studio 16 2019" -A x64 -S . -DENABLE_UI=false -DDepsPath="..\dependencies2019\win64" -DENABLE_SCRIPTING=false -B build64
-      working-directory: obs-studio
-    - run: cmake --build build64 --config Release
-      working-directory: obs-studio
+    - run: cmake -G"Visual Studio 16 2019" -A x64 -S . -DENABLE_UI=false -DDepsPath="..\dependencies2019\win64" -DENABLE_SCRIPTING=false
+      working-directory: obs-studio/build
+    - run: cmake --config Release
+      working-directory: obs-studio/build
     - run: cpack -G ZIP
-      working-directory: obs-studio/build64
+      working-directory: obs-studio/build
     - run: tree
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v3
@@ -30,14 +31,14 @@ jobs:
       working-directory: obs-studio-node
     - run: git submodule update --init --recursive
       working-directory: obs-studio-node
-    - run: mkdir build64
+    - run: mkdir build
       working-directory: obs-studio-node
-    - run: cmake .. -G"Visual Studio 15 2017" -A x64 -DOSN_LIBOBS_URL="./obs-studio/build64/obs-studio-x64-22.0.3-sl-7-13-g208cb2f5.zip"
-      working-directory: obs-studio-node/build64
+    - run: cmake .. -G"Visual Studio 15 2017" -A x64 -DOSN_LIBOBS_URL="../../obs-studio/build/obs-studio-x64-22.0.3-sl-7-13-g208cb2f5.zip"
+      working-directory: obs-studio-node/build
     - run: cmake --build . --config Release
-      working-directory: obs-studio-node/build64
+      working-directory: obs-studio-node/build
     - run: cpack -G ZIP
-      working-directory: obs-studio-node/build64
+      working-directory: obs-studio-node/build
     - run: tree
     - uses: actions/upload-artifact@v2
       with:
