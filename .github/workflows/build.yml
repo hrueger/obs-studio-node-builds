@@ -14,14 +14,14 @@ jobs:
     - run: 7z x -odependencies2019 dependencies2019.zip
     - run: git clone --recursive https://github.com/stream-labs/obs-studio
     - run: tree
-    - run: mkdir build
+    - run: mkdir build64
       working-directory: obs-studio
-    - run: cmake -G"Visual Studio 16 2019" -A x64 -S . -DENABLE_UI=false -DDepsPath="..\dependencies2019\win64" -DENABLE_SCRIPTING=false
+    - run: cmake -G"Visual Studio 16 2019" -A x64 -S . -B build64 -DENABLE_UI=false -DDepsPath="${{ github.workspace }}/dependencies2019/win64" -DENABLE_SCRIPTING=false
       working-directory: obs-studio
-    - run: cmake --config Release
-      working-directory: obs-studio/build
+    - run: cmake --build build64 --config Release
+      working-directory: obs-studio
     - run: cpack -G ZIP
-      working-directory: obs-studio/build
+      working-directory: obs-studio/build64
     - run: tree
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v3
