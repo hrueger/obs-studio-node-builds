@@ -5,20 +5,20 @@ on: [workflow_dispatch, push]
 jobs:
   build_on_win:
     name: Build on Windows
-    runs-on: windows-2016
+    runs-on: windows-2019
+    env:
+      VIRTUALCAM-GUID: "4F5DF216-7E3C-4C64-B6C1-AC12CBDB6AD4"
     steps:
     - uses: actions/checkout@master
     - uses: microsoft/setup-msbuild@v1.0.2
-    - run: choco install windows-sdk-10-version-2004-all
-    
     # OBS Studio
-    - run: curl -L -o dependencies2017.zip http://obsproject.com/downloads/dependencies2017.zip
-    - run: 7z e -aoa -odependencies2017 dependencies2017.zip
+    - run: curl -L -o dependencies2019.zip http://obsproject.com/downloads/dependencies2019.zip
+    - run: 7z e -aoa -dependencies2019 dependencies2019.zip
     - run: tree
     - run: git clone --recursive https://github.com/obsproject/obs-studio
     - run: mkdir build
       working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2017\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 15 2017" -A x64
+    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DENABLE_SCRIPTING=false -DVIRTUALCAM_GUID=${{ env.VIRTUALCAM-GUID }} -G"Visual Studio 16 2019" -A x64
       working-directory: obs-studio/build
     - run: cmake --build .
       working-directory: obs-studio/build
@@ -34,7 +34,7 @@ jobs:
       working-directory: obs-studio-node
     - run: mkdir build
       working-directory: obs-studio-node
-    - run: cmake .. -G"Visual Studio 15 2017" -A x64
+    - run: cmake .. -G"Visual Studio 15 2017" -A x64 -DOSN_LIBOBS_URL="./obs-studio/build/obs-studio-x64-22.0.3-sl-7-13-g208cb2f5.zip"
       working-directory: obs-studio-node/build
     - run: cmake --build . --config Release
       working-directory: obs-studio-node/build
