@@ -6,42 +6,39 @@ jobs:
   build_on_win:
     name: Build on Windows
     runs-on: windows-2019
-    env:
-      VIRTUALCAM-GUID: "4F5DF216-7E3C-4C64-B6C1-AC12CBDB6AD4"
     steps:
     - uses: actions/checkout@master
     - uses: microsoft/setup-msbuild@v1.0.2
     # OBS Studio
     - run: curl -L -o dependencies2019.zip http://obsproject.com/downloads/dependencies2019.zip
     - run: 7z e -aoa -odependencies2019 dependencies2019.zip
-    - run: |
-          curl -kL https://cdn-fastly.obsproject.com/downloads/vlc.zip -f --retry 5 -o vlc.zip
-          7z x vlc.zip -ovlc
-    - run: git clone --recursive https://github.com/obsproject/obs-studio
-    - run: mkdir build
+    - run: git clone --recursive https://github.com/stream-labs/obs-studio
+    - run: mkdir build64
       working-directory: obs-studio
-    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DVLCPath="../../vlc" -DENABLE_SCRIPTING=false -DVIRTUALCAM_GUID=${{ env.VIRTUALCAM-GUID }} -G"Visual Studio 16 2019" -A x64
-      working-directory: obs-studio/build
-    - run: cmake --build .
-      working-directory: obs-studio/build
+    - run: cmake .. -DENABLE_UI=false -DDepsPath="..\..\dependencies2019\win64" -DENABLE_SCRIPTING=false -G"Visual Studio 16 2019" -A x64 -B build64
+      working-directory: obs-studio
+    - run: cmake --build build64 --config Release
+      working-directory: obs-studio
     - run: cpack -G ZIP
-      working-directory: obs-studio/build
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+      working-directory: obs-studio/build64
+    - run: tree
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@v3
     # obs-studio-node
     - run: git clone https://github.com/stream-labs/obs-studio-node
     - run: yarn install
       working-directory: obs-studio-node
     - run: git submodule update --init --recursive
       working-directory: obs-studio-node
-    - run: mkdir build
+    - run: mkdir build64
       working-directory: obs-studio-node
-    - run: cmake .. -G"Visual Studio 15 2017" -A x64 -DOSN_LIBOBS_URL="./obs-studio/build/obs-studio-x64-22.0.3-sl-7-13-g208cb2f5.zip"
-      working-directory: obs-studio-node/build
+    - run: cmake .. -G"Visual Studio 15 2017" -A x64 -DOSN_LIBOBS_URL="./obs-studio/build64/obs-studio-x64-22.0.3-sl-7-13-g208cb2f5.zip"
+      working-directory: obs-studio-node/build64
     - run: cmake --build . --config Release
-      working-directory: obs-studio-node/build
+      working-directory: obs-studio-node/build64
     - run: cpack -G ZIP
-      working-directory: obs-studio-node/build
+      working-directory: obs-studio-node/build64
+    - run: tree
     - uses: actions/upload-artifact@v2
       with:
         name: obs-studio-node-0.3.21-win64.zip
